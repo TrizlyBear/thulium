@@ -1,15 +1,22 @@
-package main
+package thulium
 
-import "fmt"
 
-type Num interface {
-	float64 | int
+
+type Quark interface {
+	Render()
 }
 
-func IsGreater[N Num](x N, y N) bool{
-	return x > y
+type Prototype struct {
+	Inner		string
+	Children 	[]*Prototype
+	Parent		*Prototype
 }
 
-func main()  {
-	fmt.Println(IsGreater(3.0, 2.1))
+func (q *Prototype) T(children ...*Prototype) *Prototype {
+	for _,c := range children {
+		c.Parent = q
+	}
+	q.Children = append(q.Children, children...)
+
+	return q
 }
